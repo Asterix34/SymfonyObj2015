@@ -8,7 +8,12 @@ use Stephane\BlogBundle\Entity\Image;
 use Stephane\BlogBundle\Entity\Commentaire;
 use Stephane\BlogBundle\Entity\Categorie;
 use Stephane\BlogBundle\Form\ArticleType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
+/**
+ * @Route("/Blog")
+ */
 class BlogController extends Controller {
 
     public function indexAction($page) {
@@ -21,22 +26,13 @@ class BlogController extends Controller {
                     'listeArticles' => $listeArticles));
     }
 
-    public function voirAction($id) {
-        $repository = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('StephaneBlogBundle:Article');
-        $article = $repository->getArticle($id);
+    /**
+     * @Route("/article/{id}", name="stephane_blog_voir", requirements={"id" = "\d+"})
+     * @Template()
+     */
+    public function voirAction(Article $article) {
 
-        $repository2 = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('StephaneBlogBundle:Commentaire');
-
-        $commentaires = $repository2->findBy(array('article' => $article), array('date' => 'desc'));
-
-        $commentaires = $article->getCommentaires();
-
-        return $this->render('StephaneBlogBundle:Blog:voir.html.twig', array('article' => $article
-                    , 'commentaires' => $commentaires));
+        return array('article' => $article); 
     }
 
     public function ajouterAction() {

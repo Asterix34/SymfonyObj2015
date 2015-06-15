@@ -8,12 +8,6 @@ stephane_blog_acceuil:
     requirements:
         page: \d+
 
-stephane_blog_voir:
-    path:     /article/{id}
-    defaults: { _controller: StephaneBlogBundle:Blog:voir }
-    requirements:
-        id: \d+
-
 stephane_blog_ajouter:
     path:     /ajouter
     defaults: { _controller: StephaneBlogBundle:Blog:ajouter }

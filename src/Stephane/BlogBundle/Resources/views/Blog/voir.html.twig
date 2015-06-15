@@ -30,8 +30,7 @@
 </div>
 </div>
 <div class="panel-body">
-{% if commentaires != null %}
-{% for commentaire in commentaires %}
+{% for commentaire in article.commentaires %}
 <div class="alert alert-success" role="alert">
 Commentaire de
 <small>{{commentaire.auteur}}</small>
@@ -39,7 +38,6 @@ Commentaire de
  le <small>{{commentaire.date | date('d-m-y h:i:s')}}</small>
 </div>
 {% endfor %}
-{% endif %}
 </div>
 </div>
 <div class="panel-body">

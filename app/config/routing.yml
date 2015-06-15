@@ -6,6 +6,7 @@ app:
     resource: "@AppBundle/Controller/"
     type:     annotation
 
+# routes de mon blog
 blog:
     resource: "@StephaneBlogBundle/Controller/"
     type:     annotation
