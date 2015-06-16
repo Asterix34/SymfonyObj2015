@@ -15,7 +15,9 @@ class ArticleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('titre')
+            ->add('titre', null, array('attr' => array(
+                'title' => "Le titre doit contenir au moins 10 caractères")
+                ))
             ->add('contenu', 'textarea', array('attr'=>array('class'=>'ckeditor')))
             ->add('auteur', 'text')
             ->add('datecreation','date')

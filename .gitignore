@@ -11,3 +11,4 @@
 /web/bundles/
 /app/bootstrap*
 /nbproject/private/
+*.php~

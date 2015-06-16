@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
  *
  * @ORM\Table(name="article")
  * @ORM\Entity(repositoryClass="Stephane\BlogBundle\Entity\ArticleRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Article {
 
@@ -71,7 +72,7 @@ class Article {
 
     /**
      * @ORM\ManyToMany(targetEntity="Stephane\BlogBundle\Entity\Categorie")
-     * Assert\Count(
+     * @Assert\Count(
      *  min=1,
      *  max=3,
      *  minMessage="Il faut au moins 1 catégorie",
@@ -80,14 +81,20 @@ class Article {
      */
     private $categories;
 
-    public static function loadValidatorMetadata(ClassMetadata $data) {
+    /*public static function loadValidatorMetadata(ClassMetadata $data) {
         $data->addPropertyConstraint('categories', new Assert\Count(array(
             'min' => 1,
             'max' => 3,
             'minMessage' => 'Vous devez spécifier au moins un email',
             'maxMessage' => 'Vous ne pouvez pas spécifier plus de {{ limit }} emails',
         )));
-    }
+    }*/
+    
+    /**
+     *
+     * @ORM\Column(name="slug",type="string", length=255)
+     */
+    private $slug;
 
     /**
      * @ORM\OneToMany(targetEntity="Stephane\BlogBundle\Entity\Commentaire", mappedBy="article", cascade={"persist","remove"})
@@ -301,4 +308,42 @@ class Article {
         return $this->commentaires;
     }
 
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Article
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+    
+    /**
+     * @ORM\PreUpdate
+     * @ORM\PrePersist
+     */
+    public function setSlugFromTitle() {
+        
+        $str = str_replace('-', ' ', $this->titre);
+	$clean = iconv('UTF-8', 'ASCII//TRANSLIT', $str);	
+	$clean = strip_tags($clean);
+	$clean = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $clean);
+	$clean = strtolower(trim($clean, '-'));
+	$clean = preg_replace("/[\/_|+ -]+/", '-', $clean);
+	$this->slug = $clean;
+    }
 }
