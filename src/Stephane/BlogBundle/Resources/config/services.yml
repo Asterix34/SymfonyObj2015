@@ -1,4 +1,4 @@
 services:
-#    stephane_blog.example:
-#        class: Stephane\BlogBundle\Example
+    stephane_blog.slugger:
+        class: Stephane\BlogBundle\Service\Slugger
 #        arguments: [@service_id, "plain_value", %parameter%]
