@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
  *
  * @ORM\Table(name="article")
  * @ORM\Entity(repositoryClass="Stephane\BlogBundle\Entity\ArticleRepository")
- * @ORM\HasLifecycleCallbacks()
+ * ORM\HasLifecycleCallbacks()
  */
 class Article {
 
@@ -333,8 +333,8 @@ class Article {
     }
     
     /**
-     * @ORM\PreUpdate
-     * @ORM\PrePersist
+     * ORM\PreUpdate
+     * ORM\PrePersist
      */
     public function setSlugFromTitle() {
         
