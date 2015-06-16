@@ -2,6 +2,7 @@ services:
     stephane_blog.slugger:
         class: Stephane\BlogBundle\Service\Slugger
 #        arguments: [@service_id, "plain_value", %parameter%]
+
     stephane_blog.article_listener:
         class: Stephane\BlogBundle\Service\SlugListener
         calls:

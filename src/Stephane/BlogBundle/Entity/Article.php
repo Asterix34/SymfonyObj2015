@@ -332,18 +332,4 @@ class Article {
         return $this->slug;
     }
     
-    /**
-     * ORM\PreUpdate
-     * ORM\PrePersist
-     */
-    public function setSlugFromTitle() {
-        
-        $str = str_replace('-', ' ', $this->titre);
-	$clean = iconv('UTF-8', 'ASCII//TRANSLIT', $str);	
-	$clean = strip_tags($clean);
-	$clean = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $clean);
-	$clean = strtolower(trim($clean, '-'));
-	$clean = preg_replace("/[\/_|+ -]+/", '-', $clean);
-	$this->slug = $clean;
-    }
 }
