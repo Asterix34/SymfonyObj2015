@@ -28,6 +28,7 @@ class BlogController extends Controller {
 
     /**
      * @Route("/article/{id}", name="stephane_blog_voir", requirements={"id" = "\d+"})
+     * @Route("/{slug}", name="stephane_blog_slug_voir")
      * @Template()
      */
     public function voirAction(Article $article) {

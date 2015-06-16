@@ -4,10 +4,9 @@ services:
 #        arguments: [@service_id, "plain_value", %parameter%]
     stephane_blog.article_listener:
         class: Stephane\BlogBundle\Service\SlugListener
+        calls:
+            - [setSlugger, ["@stephane_blog.slugger"]]
         tags:
             - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: prePersist }
             
-    stephane_blog.article_listener2:
-        class: Stephane\BlogBundle\Service\SlugListener
-        tags:
-            - { name: doctrine.event_listener, event: preUpdate }

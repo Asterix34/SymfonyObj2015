@@ -12,7 +12,7 @@
 	<!-- List group -->
 	<ul class="list-group">
 	    {% for article in listeArticles %}
-		<li class="list-group-item"><a href="{{ path( "article_show", {id: article.id}) }}">{{ article.titre }}</a></li>
+		<li class="list-group-item"><a href="{{ path( "stephane_blog_slug_voir", {slug: article.slug}) }}">{{ article.titre }}</a></li>
 		{% endfor %}
 	</ul>
 </div>

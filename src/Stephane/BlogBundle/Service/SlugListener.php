@@ -12,19 +12,23 @@ use Stephane\BlogBundle\Entity\Article;
  */
 class SlugListener {
 
+    private $slugger;
+    
+    public function setSlugger($slugger) {
+        $this->slugger = $slugger;
+        return $this;
+    }
+
     public function preUpdate(LifecycleEventArgs $args) {
         return $this->prePersist($args);
     }
 
     public function prePersist(LifecycleEventArgs $args) {
         $entity = $args->getEntity();
-        $entityManager = $args->getEntityManager();
 
-        // peut-être voulez-vous seulement agir sur une entité « Product »
+        // peut-être voulez-vous seulement agir sur une entité « Article »
         if ($entity instanceof Article) {
-            //$slugger = $this->get('slugger');
-            $slugger = new Slugger();
-            $slug = $slugger->getSlug($entity->getTitre());
+            $slug = $this->slugger->getSlug($entity->getTitre());
             $entity->setSlug($slug);
         }
     }
