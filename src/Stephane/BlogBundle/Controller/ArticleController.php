@@ -53,7 +53,7 @@ class ArticleController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('article_show', array('id' => $entity->getId())));
+            return $this->redirectToRoute('article_show', array('id' => $entity->getId()));
         }
 
         return array(
@@ -193,7 +193,7 @@ class ArticleController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('article_edit', array('id' => $id)));
+            return $this->redirectToRoute('article_edit', array('id' => $id));
         }
 
         return array(
@@ -225,7 +225,7 @@ class ArticleController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('article'));
+        return $this->redirectToRoute('article');
     }
 
     /**

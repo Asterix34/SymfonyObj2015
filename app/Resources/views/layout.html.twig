@@ -1,55 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>{% block title %} Test Symfony {% endblock %}</title>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>{% block title %} Test Symfony {% endblock %}</title>
 
-    <!-- Bootstrap -->
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+        <!-- Bootstrap -->
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="{{ asset('https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js') }}"></script>
-      <script src="{{ asset('https://oss.maxcdn.com/respond/1.4.2/respond.min.js') }}"></script>
-    <![endif]-->
-  </head>
-  <body>
-    
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="{{ asset('https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js') }}"></script>
+          <script src="{{ asset('https://oss.maxcdn.com/respond/1.4.2/respond.min.js') }}"></script>
+        <![endif]-->
+    </head>
+    <body>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js') }}"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-	
-	<div class="page-header">
-  		<h1>Ze BlOg of <small>Lord of the Under Dark</small></h1>
-	</div>
-	
-	<nav class="navbar navbar-default">
-  		<div class="container-fluid">
-    	<!-- Brand and toggle get grouped for better mobile display -->
-    		<div class="navbar-header">
-	      		<ul class="nav navbar-nav">
-	        		<li class="active"><a href="{{ path('stephane_blog_acceuil') }}">Blog<span class="sr-only">(current)</span></a></li>
-					<li class="active"><a href="{{ path('stephane_blog_voir', {id:1}) }}">Article<span class="sr-only">(current)</span></a></li>
-					<li class="active"><a href="{{ path('stephane_blog_ajouter') }}">Ajouter<span class="sr-only">(current)</span></a></li>
-					<li class="active"><a href="{{ path('stephane_blog_modifier', {id:1}) }}">Modifier article<span class="sr-only">(current)</span></a></li>
-	    		</ul>
-	    	</div>
-		</div>
-	</nav>
-	<div class="container-fluid">
-		<div id="menu" class="col-md-2">
-		{{ render(controller("StephaneBlogBundle:Blog:menu")) }}
-		</div>
-		<div id="content" class="col-md-3">
-			{% block body %}
-			{% endblock %}
-		</div>
-	</div>
-  </body>
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js') }}"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+
+        <div class="page-header">
+            <h1>Ze BlOg of <small>Lord of the Under Dark</small></h1>
+        </div>
+
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="{{ path('stephane_blog_acceuil') }}">Blog<span class="sr-only">(current)</span></a></li>
+                        <li class="active"><a href="{{ path('article') }}">Liste des articles<span class="sr-only">(current)</span></a></li>
+                        <li class="active"><a href="{{ path('article_new') }}">Ajouter un article<span class="sr-only">(current)</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <div id="menu" class="col-md-2">
+                {{ render(controller("StephaneBlogBundle:Blog:menu")) }}
+            </div>
+            <div id="content" class="col-md-3">
+                {% block body %}
+                {% endblock %}
+            </div>
+        </div>
+    </body>
 </html>

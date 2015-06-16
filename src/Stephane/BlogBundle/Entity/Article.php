@@ -3,6 +3,8 @@
 namespace Stephane\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * Article
@@ -10,8 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="article")
  * @ORM\Entity(repositoryClass="Stephane\BlogBundle\Entity\ArticleRepository")
  */
-class Article
-{
+class Article {
+
     /**
      * @var integer
      *
@@ -25,6 +27,11 @@ class Article
      * @var string
      *
      * @ORM\Column(name="titre", type="string", length=255)
+     * @Assert\Length(
+     *      min="10", max="255",
+     *      minMessage="Le titre doit faire plus de 10 caractères",
+     *      maxMessage="Le titre doit faire moins de 255 caractères"
+     * )
      */
     private $titre;
 
@@ -32,6 +39,7 @@ class Article
      * @var string
      *
      * @ORM\Column(name="contenu", type="text")
+     * @Assert\NotBlank()
      */
     private $contenu;
 
@@ -39,6 +47,10 @@ class Article
      * @var string
      *
      * @ORM\Column(name="auteur", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length( max="255",
+     *      maxMessage="L'auteur doit faire moins de 255 caractères."
+     * )
      */
     private $auteur;
 
@@ -46,33 +58,48 @@ class Article
      * @var \DateTime
      *
      * @ORM\Column(name="datecreation", type="datetime")
+     * @Assert\DateTime(message="La date n'est pas dans un format valide.")
      */
-    private $datecreation;    
-    
+    private $datecreation;
+
     /**
      * @var boolean
      *
      * @ORM\Column(name="publication", type="boolean")
      */
-    private $publication; 
-     
+    private $publication;
+
     /**
      * @ORM\ManyToMany(targetEntity="Stephane\BlogBundle\Entity\Categorie")
+     * Assert\Count(
+     *  min=1,
+     *  max=3,
+     *  minMessage="Il faut au moins 1 catégorie",
+     *  maxMessage="Il faut maximum 3 catégories"
+     * )
      */
     private $categories;
-    
+
+    public static function loadValidatorMetadata(ClassMetadata $data) {
+        $data->addPropertyConstraint('categories', new Assert\Count(array(
+            'min' => 1,
+            'max' => 3,
+            'minMessage' => 'Vous devez spécifier au moins un email',
+            'maxMessage' => 'Vous ne pouvez pas spécifier plus de {{ limit }} emails',
+        )));
+    }
+
     /**
      * @ORM\OneToMany(targetEntity="Stephane\BlogBundle\Entity\Commentaire", mappedBy="article", cascade={"persist","remove"})
      */
     private $commentaires;
-    
+
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -82,8 +109,7 @@ class Article
      * @param string $titre
      * @return Article
      */
-    public function setTitre($titre)
-    {
+    public function setTitre($titre) {
         $this->titre = $titre;
 
         return $this;
@@ -94,8 +120,7 @@ class Article
      *
      * @return string 
      */
-    public function getTitre()
-    {
+    public function getTitre() {
         return $this->titre;
     }
 
@@ -105,8 +130,7 @@ class Article
      * @param string $contenu
      * @return Article
      */
-    public function setContenu($contenu)
-    {
+    public function setContenu($contenu) {
         $this->contenu = $contenu;
 
         return $this;
@@ -117,8 +141,7 @@ class Article
      *
      * @return string 
      */
-    public function getContenu()
-    {
+    public function getContenu() {
         return $this->contenu;
     }
 
@@ -128,8 +151,7 @@ class Article
      * @param string $auteur
      * @return Article
      */
-    public function setAuteur($auteur)
-    {
+    public function setAuteur($auteur) {
         $this->auteur = $auteur;
 
         return $this;
@@ -140,8 +162,7 @@ class Article
      *
      * @return string 
      */
-    public function getAuteur()
-    {
+    public function getAuteur() {
         return $this->auteur;
     }
 
@@ -151,8 +172,7 @@ class Article
      * @param \DateTime $datecreation
      * @return Article
      */
-    public function setDatecreation($datecreation)
-    {
+    public function setDatecreation($datecreation) {
         $this->datecreation = $datecreation;
 
         return $this;
@@ -163,16 +183,15 @@ class Article
      *
      * @return \DateTime 
      */
-    public function getDatecreation()
-    {
+    public function getDatecreation() {
         return $this->datecreation;
     }
-    
-	public function __construct() {
-		$this->datecreation = new \DateTime;
-		$this->publication = true;
-		$this->categories = new \Doctrine\Common\Collections\ArrayCollection();
-	}
+
+    public function __construct() {
+        $this->datecreation = new \DateTime;
+        $this->publication = true;
+        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Set publication
@@ -180,8 +199,7 @@ class Article
      * @param boolean $publication
      * @return Article
      */
-    public function setPublication($publication)
-    {
+    public function setPublication($publication) {
         $this->publication = $publication;
 
         return $this;
@@ -192,18 +210,15 @@ class Article
      *
      * @return boolean 
      */
-    public function getPublication()
-    {
+    public function getPublication() {
         return $this->publication;
     }
-    
+
     /**
      * @ORM\OneToOne(targetEntity="Stephane\BlogBundle\Entity\Image", cascade={"persist","remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $image;
-
-
 
     /**
      * Set image
@@ -211,8 +226,7 @@ class Article
      * @param \Stephane\BlogBundle\Entity\Image $image
      * @return Article
      */
-    public function setImage(\Stephane\BlogBundle\Entity\Image $image = null)
-    {
+    public function setImage(\Stephane\BlogBundle\Entity\Image $image = null) {
         $this->image = $image;
 
         return $this;
@@ -223,8 +237,7 @@ class Article
      *
      * @return \Stephane\BlogBundle\Entity\Image 
      */
-    public function getImage()
-    {
+    public function getImage() {
         return $this->image;
     }
 
@@ -234,8 +247,7 @@ class Article
      * @param \Stephane\BlogBundle\Entity\Categorie $categories
      * @return Article
      */
-    public function addCategory(\Stephane\BlogBundle\Entity\Categorie $categories)
-    {
+    public function addCategory(\Stephane\BlogBundle\Entity\Categorie $categories) {
         $this->categories[] = $categories;
 
         return $this;
@@ -246,8 +258,7 @@ class Article
      *
      * @param \Stephane\BlogBundle\Entity\Categorie $categories
      */
-    public function removeCategory(\Stephane\BlogBundle\Entity\Categorie $categories)
-    {
+    public function removeCategory(\Stephane\BlogBundle\Entity\Categorie $categories) {
         $this->categories->removeElement($categories);
     }
 
@@ -256,8 +267,7 @@ class Article
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getCategories()
-    {
+    public function getCategories() {
         return $this->categories;
     }
 
@@ -267,8 +277,7 @@ class Article
      * @param \Stephane\BlogBundle\Entity\Commentaire $commentaires
      * @return Article
      */
-    public function addCommentaire(\Stephane\BlogBundle\Entity\Commentaire $commentaires)
-    {
+    public function addCommentaire(\Stephane\BlogBundle\Entity\Commentaire $commentaires) {
         $this->commentaires[] = $commentaires;
 
         return $this;
@@ -279,8 +288,7 @@ class Article
      *
      * @param \Stephane\BlogBundle\Entity\Commentaire $commentaires
      */
-    public function removeCommentaire(\Stephane\BlogBundle\Entity\Commentaire $commentaires)
-    {
+    public function removeCommentaire(\Stephane\BlogBundle\Entity\Commentaire $commentaires) {
         $this->commentaires->removeElement($commentaires);
     }
 
@@ -289,8 +297,8 @@ class Article
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getCommentaires()
-    {
+    public function getCommentaires() {
         return $this->commentaires;
     }
+
 }

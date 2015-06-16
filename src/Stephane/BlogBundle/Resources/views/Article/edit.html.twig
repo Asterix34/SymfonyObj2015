@@ -1,6 +1,6 @@
-{% extends '::base.html.twig' %}
-
-{% block body -%}
+{% extends "StephaneBlogBundle::layout.html.twig" %}
+{% block title %} {{ parent() }} - Index{% endblock %}
+{% block stephane_body %}
     <h1>Article edit</h1>
 
     {{ form(edit_form) }}
